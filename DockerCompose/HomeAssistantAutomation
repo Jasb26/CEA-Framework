@@ -1,0 +1,11 @@
+##########Colour cycle, from blueprint
+- id: '1676288793953'
+  alias: Color Loop
+  description: PoC Colour Cycle Automation
+  use_blueprint:
+    path: hugalafutro/Color_Loop.yaml
+    input:
+      cl_light:
+        area_id: grow_room
+        device_id: a117206253444db5b434e760b408cd2d
+        entity_id: light.signify_netherlands_b_v_lca006_huelight
