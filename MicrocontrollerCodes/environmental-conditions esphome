@@ -1,0 +1,75 @@
+esphome:
+  name: environmental-conditions
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "gv4faqqWttYK6d4hpWapR9hCmbB4xGWSGU8AYxnzd64="
+
+ota:
+  password: "c71216c5d2791736b3442850ad81353e"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Environmental-Conditions"
+    password: "1ZFYIRZZwsqp"
+
+captive_portal:
+
+output:
+  - platform: gpio
+    pin: 18
+    id: pin_18
+  - platform: gpio
+    pin: 19
+    id:  pin_19
+light:
+  - platform: binary
+    output: pin_18
+    name: "temperature LED"
+    id: templight
+  - platform: binary
+    output: pin_19
+    name: "humidity LED"
+    id: humidlight
+
+sensor:
+  - platform: dht
+    pin: 16
+    temperature:
+      name: "Grow Room Temperature"
+      on_value_range:
+        - above: 18.0
+          then:
+            - light.turn_on:
+                id: templight
+        - below: 16.0
+          then:
+            - light.turn_off:
+                id: templight   
+  - platform: dht
+    pin: 16         
+    humidity:
+      name: "Grow Room Humidity"
+      on_value_range:
+        - above: 40
+          then:
+          - light.turn_on:
+              id: humidlight
+        - below: 39
+          then:
+          - light.turn_off:
+              id: humidlight
+    update_interval: 30s                                      
