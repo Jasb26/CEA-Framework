@@ -1,0 +1,11 @@
+  #########getcsv.py
+  #!/bin/bash
+
+
+NAME=tig1_influxdb_1
+DATABASE=telegraf
+#QUERY="SELECT ("celsius") FROM "bedroom_temperature" fill(previous)"
+#QUERY="SELECT celsius, junk FROM "bedroom_temperature" fill(previous)"
+QUERY="SELECT * FROM "bedroom_temperature" fill(previous)"
+
+docker exec ${NAME} influx -database ${DATABASE} -execute "${QUERY}" -format csv 
