@@ -1,0 +1,56 @@
+############################################################
+##Portainer
+version: '3.0'
+
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - "9000:9000/tcp"
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer:/data
+
+############################################################
+##Home Assistant
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /opt/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    devices: 
+  # your usb device forwarding to the docker image 
+     - /dev/<tty port name>:/dev/<tty port name>
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+
+############################################################
+##Mosquitto
+#  mosquitto:
+#    image: eclipse-mosquitto
+#    container_name: mosquitto
+#    volumes:
+#      - /opt/mosquitto:/mosquitto
+#      - /opt/mosquitto/data:/mosquitto/data
+#      - /opt/mosquitto/log:/mosquitto/log
+#    ports:
+#      - 1883:1883
+#      - 9001:9001
+
+############################################################
+##ESPhome
+  esphome:
+    container_name: esphome
+    image: esphome/esphome
+    volumes:
+      - /opt/esphome/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    network_mode: host
