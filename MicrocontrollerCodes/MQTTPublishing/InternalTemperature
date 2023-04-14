@@ -15,5 +15,5 @@ while True:
     Tf = esp32.raw_temperature()
     Tc = (Tf-32.0)/1.8
     msg = str(Tc)
-    mqttc.publish(b'homeassistant/esp1/internal_temp', msg.encode())
+    mqttc.publish(b'int/temp', msg.encode())
     sleep(10)
