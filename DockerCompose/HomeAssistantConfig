@@ -1,0 +1,30 @@
+##Sensor Card
+# Adding side panels of addons
+panel_iframe:
+  portainer:
+    title: "Portainer"
+    url: "http://192.168.195.171:9000/#/containers"
+    icon: mdi:docker
+    require_admin: true
+
+  esphome:
+    title: "esphome"
+    url: "http://192.168.195.171:6052"
+    icon: mdi:raspberry.pi
+    require_admin: true
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
